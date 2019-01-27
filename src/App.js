@@ -6,18 +6,12 @@ import { replaceElementInArray } from "./util";
 
 class App extends Component {
   state = {
-    todoList: [
-      {
-        id: Date.now(),
-        text: "test",
-        completed: true
-      }
-    ]
+    todoList: []
   };
 
   handleAddTodo = text => {
     this.setState({
-      todoList: [...this.state.todoList, { id: Date.now(), text }]
+      todoList: [...this.state.todoList, { id: Date.now(), text, completed: false }]
     });
   };
 
@@ -27,9 +21,13 @@ class App extends Component {
     if (!itemIndex === -1) return;
     const currentTodo = todoList[itemIndex];
     const newTodo = { ...currentTodo, completed: newStatus };
-    const newTodoList = replaceElementInArray(todoList, itemIndex, newTodo); 
-    this.setState({todoList: newTodoList});
+    const newTodoList = replaceElementInArray(todoList, itemIndex, newTodo);
+    this.setState({ todoList: newTodoList });
   };
+
+  handleRemove=(todoId) => {
+    this.setState({todoList: this.state.todoList.filter(({id}) => id !== todoId)})
+  }
 
   render() {
     const { todoList } = this.state;
@@ -40,7 +38,10 @@ class App extends Component {
         </div>
         <div className="content mt-4">
           <AddTodo onAddTodo={this.handleAddTodo} />
-          <TodoList list={todoList} onStatusChange={this.handleStatusChange} />
+          <TodoList list={todoList} 
+          onStatusChange={this.handleStatusChange} 
+          onRemove={this.handleRemove}
+          />
         </div>
       </div>
     );
