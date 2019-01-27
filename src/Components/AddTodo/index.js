@@ -16,6 +16,7 @@ class AddTodo extends React.Component {
         className="form-inline"
         onSubmit={e => {
           e.preventDefault();
+          if(!value) return;
           onAddTodo(value);
           this.handleValueChange("");
         }}
