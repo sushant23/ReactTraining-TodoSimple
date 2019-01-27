@@ -2,11 +2,16 @@ import React, { Component } from "react";
 import TodoItem from "./Components/TodoItem";
 
 class TodoList extends Component {
-
   render() {
-    const {list} = this.props;
+    const { list, onStatusChange } = this.props;
     return (
-      list.map(({id, ...rest}) => <TodoItem key={id} {...rest} />)
+      <ul className="list-group">
+        {list.map(({ id, ...rest }) => (
+          <li key={id} className="list-group-item">
+            <TodoItem onStatusChange={(newStatus) => onStatusChange(id, newStatus)} {...rest} />
+          </li>
+        ))}
+      </ul>
     );
   }
 }
